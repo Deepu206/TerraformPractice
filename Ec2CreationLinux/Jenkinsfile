@@ -1,0 +1,44 @@
+pipeline{
+    agent any
+    tools {
+        terraform 'Terraform-11'
+    }
+    stages{
+        stage('Git Checkout'){
+            steps{
+                git branch: 'Linux', credentialsId: '87be191b-d1f1-43d8-b679-653249159a46', url: 'https://github.com/Deepu206/TerraformDemos' 
+            }
+        }
+        stage('Initialization'){
+            steps{
+                sh 'terraform init'
+            }
+        }
+
+	    stage('Formate'){
+	        steps{
+	            sh 'terraform fmt'
+	        }
+        }
+
+	    stage('validate'){
+	        steps{
+	            sh 'terraform validate'
+	        }
+        }
+
+	    stage('plan'){
+	        steps{
+	            sh 'terraform plan'
+	        }
+        }
+
+	    stage('apply'){
+	        steps{
+	            sh 'terraform apply --auto-approve'
+	        }
+        }
+
+	
+    }
+}
